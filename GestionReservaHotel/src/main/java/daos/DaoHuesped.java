@@ -14,7 +14,7 @@ import modelo.Huesped;
  * @author Kevin
  */
 public class DaoHuesped {
-    ArrayList<DtoHuesped> ListaHuesped = new ArrayList<>();
+    private ArrayList<DtoHuesped> ListaHuesped = new ArrayList<>();
 
     public DaoHuesped() {
     }
@@ -29,7 +29,7 @@ public class DaoHuesped {
         return true;
     }
 
-    public boolean actualizarHuesped(DtoHuesped huesped) {
+    public boolean editarHuesped(DtoHuesped huesped) {
         for (DtoHuesped m : ListaHuesped) {
             if (m.getDocumento().equals(huesped.getDocumento())) {
                 m.setCorreo(huesped.getCorreo());

@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * @author Kevin
  */
 public class Reserva {
-    int idReserva;
-    LocalDate fechaEntrada;
-    LocalDate fechaSalida;
-    ArrayList<Huesped> listaHuesped = new ArrayList<>();
-    ArrayList<Habitacion> listaHabitacion = new ArrayList<>();
+   private int idReserva;
+   private LocalDate fechaEntrada;
+   private LocalDate fechaSalida;
+   private ArrayList<Huesped> listaHuesped = new ArrayList<>();
+   private ArrayList<Habitacion> listaHabitacion = new ArrayList<>();
 
     public Reserva(int idReserva, LocalDate fechaEntrada, LocalDate fechaSalida) {
         setFechaEntrada(fechaEntrada);

@@ -14,13 +14,13 @@ import java.util.ArrayList;
  * @author Kevin
  */
 public class DtoReserva {
-    int idReserva;
-    LocalDate fechaEntrada;
-    LocalDate fechaSalida;
-    ArrayList<DtoHuesped> listaHuesped = new ArrayList<>();
-    ArrayList<DtoHabitacion> listaHabitacion = new ArrayList<>();
+   private int idReserva;
+   private LocalDate fechaEntrada;
+   private LocalDate fechaSalida;
+   private ArrayList<DtoHuesped> listaHuesped = new ArrayList<>();
+   private ArrayList<DtoHabitacion> listaHabitacion = new ArrayList<>();
 
-    public DtoReserva(int idReserva, String fechaEntrada, LocalDate fechaSalida) {
+    public DtoReserva(int idReserva, String fechaEntrada, String fechaSalida) {
         setFechaEntrada(fechaEntrada);
         setFechaSalida(fechaSalida);
         setIdReserva(idReserva);
@@ -53,8 +53,12 @@ public class DtoReserva {
         return fechaSalida;
     }
 
-    public void setFechaSalida(LocalDate fechaSalida) {
-        this.fechaSalida = fechaSalida;
+    public void setFechaSalida(String fechaSalida) {
+        try{
+        this.fechaSalida = LocalDate.parse(fechaSalida) ;
+        }catch(DateTimeParseException e){
+            throw new IllegalArgumentException("Formato de fecha invalido");
+        }
     }
 
     public ArrayList<DtoHuesped> getListaHuesped() {

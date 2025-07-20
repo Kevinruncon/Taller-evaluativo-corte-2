@@ -9,10 +9,10 @@ package modelo;
  * @author Kevin
  */
 public class Huesped {
-    String nombre;
-    String documento;
-    String correo;
-    String telefono;
+   private String nombre;
+  private  String documento;
+  private  String correo;
+   private String telefono;
 
     public Huesped(String nombre, String documento, String correo, String telefono) {
         this.nombre = nombre;

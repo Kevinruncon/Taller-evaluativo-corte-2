@@ -9,10 +9,10 @@ package modelo;
  * @author Kevin
  */
 public class Habitacion {
-    int numero ;
-    String tipo; 
-    int capacidad ;
-    String estado;
+  private  int numero ;
+   private String tipo; 
+   private int capacidad ;
+   private String estado;
 
     public Habitacion(int numero, String tipo, int capacidad, String estado) {
         setNumero(numero);
