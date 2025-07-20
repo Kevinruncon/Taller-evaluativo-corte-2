@@ -4,6 +4,9 @@
  */
 package vista;
 
+import java.awt.BorderLayout;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 /**
  *
  * @author Kevin
@@ -11,12 +14,16 @@ package vista;
 public class VentanaPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
-
-    /**
-     * Creates new form VentanaPrincipal
-     */
+    private VentanaRegistro ventanaRegistro;
+            
     public VentanaPrincipal() {
         initComponents();
+        setTitle("Sistema de Gestión Eco Hotel");
+        setLocationRelativeTo(this);
+        setLayout(new BorderLayout());
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    ventanaRegistro = new VentanaRegistro(this);
+
     }
 
     /**
@@ -40,10 +47,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(202, 210, 197));
         jButton1.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
+        jButton1.setText("Gestion de Reserva");
 
         btnVentanaRegistro.setBackground(new java.awt.Color(202, 210, 197));
         btnVentanaRegistro.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
-        btnVentanaRegistro.setText("Registro");
+        btnVentanaRegistro.setText("Registro Usuario");
+        btnVentanaRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentanaRegistroActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(202, 210, 197));
 
@@ -56,7 +69,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -72,7 +85,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnVentanaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,6 +111,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVentanaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentanaRegistroActionPerformed
+ this.setVisible(false);     // oculta Ventana1
+ ventanaRegistro.setVisible(true); 
+    }//GEN-LAST:event_btnVentanaRegistroActionPerformed
 
     /**
      * @param args the command line arguments

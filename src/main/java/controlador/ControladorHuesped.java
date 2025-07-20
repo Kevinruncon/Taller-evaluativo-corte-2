@@ -4,56 +4,81 @@
  */
 package controlador;
 
+import Exceptiones.HabitacionException;
+import Exceptiones.HuespedException;
 import daos.DaoHuesped;
 import dto.DtoHuesped;
+import  Exceptiones.IdentificadorException;
+import Exceptiones.ReservaExecption;
+import dto.DtoHabitacion;
+import java.util.ArrayList;
 
 public class ControladorHuesped {
 
-    private DaoHuesped dao;
+    private DaoHuesped daoHuesped;
 
     public ControladorHuesped() {
-        this.dao = new DaoHuesped();
+        this.daoHuesped = new DaoHuesped();
     }
 
     public boolean guardarHuesped(DtoHuesped huesped) {
-        DtoHuesped confirmar = dao.buscarHuesped(huesped.getDocumento());
-        if (confirmar != null) {
-            return false;
-        } else {
-            return dao.guardarHuesped(huesped);
+        if (huesped == null) {
+            throw new HuespedException("El huésped no puede ser nulo.");
         }
+        if (huesped.getDocumento() == null || huesped.getDocumento().isBlank()) {
+            throw new IdentificadorException("El documento del huésped es obligatorio.");
+        }
+
+        DtoHuesped confirmar = daoHuesped.buscarHuesped(huesped.getDocumento());
+        if (confirmar != null) {
+            throw new HuespedException("Ya existe un huésped con ese documento.");
+        }
+
+        return daoHuesped.guardarHuesped(huesped);
     }
 
     public DtoHuesped buscarHuesped(String documento) {
         if (documento == null || documento.isBlank()) {
-            return null;
-        } else {
-            return dao.buscarHuesped(documento);
+            throw new IdentificadorException("El documento no puede estar vacío.");
         }
+
+        DtoHuesped huesped = daoHuesped.buscarHuesped(documento);
+        if (huesped == null) {
+            throw new HuespedException("No se encontró un huésped con el documento: " + documento);
+        }
+
+        return huesped;
     }
 
     public boolean eliminarHuesped(String documento) {
         if (documento == null || documento.isBlank()) {
-            return false;
+            throw new IdentificadorException("Debe ingresar un documento válido.");
         }
-        DtoHuesped verificar = dao.buscarHuesped(documento);
-        if (verificar != null) {
-            return dao.eliminarHuesped(documento);
-        } else {
-            return false;
+
+        DtoHuesped verificar = daoHuesped.buscarHuesped(documento);
+        if (verificar == null) {
+            throw new HuespedException("No se encontró un huésped con el documento: " + documento);
         }
+
+        return daoHuesped.eliminarHuesped(documento);
     }
 
     public boolean editarHuesped(DtoHuesped huesped) {
-        if (huesped == null || huesped.getDocumento() == null || huesped.getDocumento().isBlank()) {
-            return false;
+        if (huesped == null) {
+            throw new HuespedException("El objeto huésped no puede ser nulo.");
+        }
+        if (huesped.getDocumento() == null || huesped.getDocumento().isBlank()) {
+            throw new IdentificadorException("El documento del huésped es obligatorio para editar.");
         }
 
-        DtoHuesped editar = dao.buscarHuesped(huesped.getDocumento());
-        if (editar != null) {
-            return dao.editarHuesped(huesped);
-        } else {
-            return false;
+        DtoHuesped existente = daoHuesped.buscarHuesped(huesped.getDocumento());
+        if (existente == null) {
+            throw new HabitacionException("No se encontró un huésped con el documento: " + huesped.getDocumento());
         }
+
+        return daoHuesped.editarHuesped(huesped);
     }
+        public ArrayList<DtoHuesped> getListaHuesped() {
+        return daoHuesped.getHuespedes();
+        }
 }

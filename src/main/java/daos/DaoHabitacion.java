@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author Kevin
  */
 public class DaoHabitacion {
-    ArrayList<DtoHabitacion> ListaHabitacion = new ArrayList<>();
+   private ArrayList<DtoHabitacion> ListaHabitacion = new ArrayList<>();
 
     public DaoHabitacion() {
     }
@@ -35,7 +35,7 @@ public class DaoHabitacion {
         return false;
     }
     
-    public ArrayList<DtoHabitacion> getHabitaciones() {
+    public ArrayList<DtoHabitacion> getListaHabitaciones() {
     return ListaHabitacion;
 }
 
@@ -65,11 +65,14 @@ public class DaoHabitacion {
     }    
    
 
-    public void actualizarEstado(int numero, String estado) {
-        DtoHabitacion hab = buscarHabitacion(numero);
-        if (hab != null) {
-            hab.setEstado(estado);
+   public boolean actualizarEstado(int numero, String nuevoEstado) {
+    for (DtoHabitacion h : ListaHabitacion) {
+        if (h.getNumero() == numero) {
+            h.setEstado(nuevoEstado);
+            return true;
         }
     }
+    return false;
+}
 }
 

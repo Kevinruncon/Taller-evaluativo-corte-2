@@ -11,10 +11,10 @@ import modelo.*;
  * @author Kevin
  */
 public class DtoHuesped {
-    String nombre;
-    String documento;
-    String correo;
-    String telefono;
+    private String nombre;
+    private String documento;
+    private String correo;
+    private String telefono;
 
     public DtoHuesped(String nombre, String documento, String correo, String telefono) {
         this.nombre = nombre;
@@ -53,7 +53,7 @@ public class DtoHuesped {
         if(correo == null || correo.isBlank() ){
             throw new IllegalArgumentException("El correo no puede estar vacio");
         }
-        if(correo.contains("@")){
+        if(!correo.contains("@")){
             throw new IllegalArgumentException("El correo debe tener un @.");
         }
             

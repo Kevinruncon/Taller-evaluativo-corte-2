@@ -14,7 +14,7 @@ import java.time.LocalDate;
  * @author Kevin
  */
 public class DaoReserva {
-    ArrayList<DtoReserva> ListaReserva = new ArrayList<>();
+   private ArrayList<DtoReserva> ListaReserva = new ArrayList<>();
 
     public DaoReserva() {
     }

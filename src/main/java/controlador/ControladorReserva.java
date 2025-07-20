@@ -11,6 +11,7 @@ import daos.DaoReserva;
 import Exceptiones.ReservaExecption;
 import Exceptiones.IdentificadorException;
 import Exceptiones.HabitacionException;
+import dto.DtoHuesped;
 
 /**
  *
@@ -88,5 +89,12 @@ public class ControladorReserva {
     }else{
         throw new ReservaExecption("No se encontró una reserva con el ID: " + reserva.getIdReserva());
     }
+    }
+      public DtoReserva buscarReserva(int idReserva) {
+        if (idReserva <= 0) {
+       throw new IdentificadorException("El id de la reserva no puede ser negativo.");
+        } else {
+            return daoReserva.buscarReserva(idReserva);
+        }
     }
 }

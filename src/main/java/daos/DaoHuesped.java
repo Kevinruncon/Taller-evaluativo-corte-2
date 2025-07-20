@@ -14,7 +14,7 @@ import modelo.Huesped;
  * @author Kevin
  */
 public class DaoHuesped {
-    ArrayList<DtoHuesped> ListaHuesped = new ArrayList<>();
+    private ArrayList<DtoHuesped> ListaHuesped = new ArrayList<>();
 
     public DaoHuesped() {
     }
