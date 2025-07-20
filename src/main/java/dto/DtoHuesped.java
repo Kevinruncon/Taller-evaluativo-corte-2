@@ -50,9 +50,13 @@ public class DtoHuesped {
     }
 
     public void setCorreo(String correo) {
-        if(correo == null || correo.isBlank()){
+        if(correo == null || correo.isBlank() ){
             throw new IllegalArgumentException("El correo no puede estar vacio");
         }
+        if(correo.contains("@")){
+            throw new IllegalArgumentException("El correo debe tener un @.");
+        }
+            
         this.correo = correo;
     }
 

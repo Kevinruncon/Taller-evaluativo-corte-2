@@ -29,7 +29,7 @@ public class DaoHuesped {
         return true;
     }
 
-    public boolean actualizarHuesped(DtoHuesped huesped) {
+    public boolean editarHuesped(DtoHuesped huesped) {
         for (DtoHuesped m : ListaHuesped) {
             if (m.getDocumento().equals(huesped.getDocumento())) {
                 m.setCorreo(huesped.getCorreo());
