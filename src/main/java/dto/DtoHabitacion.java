@@ -4,7 +4,7 @@
  */
 package dto;
 
-import modelo.*;
+import modelo.Habitacion;
 
 /**
  *

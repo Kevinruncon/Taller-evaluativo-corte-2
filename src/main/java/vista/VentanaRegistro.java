@@ -10,26 +10,38 @@ import dto.DtoHabitacion;
 import dto.DtoHuesped;
 import dto.DtoReserva;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import controlador.ControladorHabitacion;
 
 
 public class VentanaRegistro extends javax.swing.JFrame {
      private ControladorHuesped HuespedControlador = new ControladorHuesped();
-    
+    private ControladorHabitacion HabitacionControlador;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaRegistro.class.getName());
 
-    private VentanaPrincipal ventanaPrincipal;
+    private VentanaPrincipal ventanaPrincipal; 
+    
 
-    public VentanaRegistro(VentanaPrincipal ventanaPrincipal) {
+    public VentanaRegistro(VentanaPrincipal ventanaPrincipal, ControladorHabitacion HabitacionControlador) {
         initComponents();
+        this.HabitacionControlador = HabitacionControlador;
+        this.ventanaPrincipal = ventanaPrincipal;
+        listarHabitacionesDisponibles();
+
         setTitle("Registro de Huesped");
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.ventanaPrincipal = ventanaPrincipal;
-DefaultTableModel modeloHuesped = new DefaultTableModel(
+    
+      DefaultTableModel modeloNuevaHabitacion =new DefaultTableModel(new Object[]{"Numero", "Tipo", "Estado", "Capacidad"}, 0);
+        tablaHabitacionesHuesped.setModel(modeloNuevaHabitacion);
+        
+    DefaultTableModel modeloHuesped = new DefaultTableModel(
                 new Object[]{"Nombre", "Documento", "Teléfono","Correo"},
                 0);
         tablaHuesped.setModel(modeloHuesped);
+    DefaultTableModel modeloHuespedHab =new DefaultTableModel(new Object[]{"Numero", "Tipo", "Estado", "Capacidad"}, 0);
+        tablaHabitacionesHuesped.setModel(modeloHuespedHab);
     }
     private void ListarHuesped() {
         // Definir siempre los encabezados, aunque no haya datos
@@ -47,6 +59,19 @@ DefaultTableModel modeloHuesped = new DefaultTableModel(
 
         tablaHuesped.setModel(modelo);
     }
+    
+   public void listarHabitacionesDisponibles() {
+        // 🔧 CORREGIDO: Método público para actualizar tabla desde otras ventanas
+        DefaultTableModel modelo = (DefaultTableModel) tablaHabitacionesHuesped.getModel();
+        modelo.setRowCount(0);
+
+        for (DtoHabitacion h : HabitacionControlador.getListaHabitaciones()) {
+            if (h.getEstado().equalsIgnoreCase("libre")) {
+                modelo.addRow(new Object[]{h.getNumero(), h.getTipo(), h.getEstado(), h.getCapacidad()});
+            }
+        }
+    }
+
 
 
     /**
@@ -77,6 +102,18 @@ DefaultTableModel modeloHuesped = new DefaultTableModel(
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaHuesped = new javax.swing.JTable();
         btnEliminarRegistroHuesped = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtFinalizarFechaEntrada = new javax.swing.JTextField();
+        txtFinalizarFechaSalida = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        comboboxTipo = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        txtFinalizarNumeroHabitacion = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaHabitacionesHuesped = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,6 +193,11 @@ DefaultTableModel modeloHuesped = new DefaultTableModel(
         jScrollPane1.setViewportView(tablaHuesped);
 
         btnEliminarRegistroHuesped.setText("Eliminar");
+        btnEliminarRegistroHuesped.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarRegistroHuespedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -182,7 +224,7 @@ DefaultTableModel modeloHuesped = new DefaultTableModel(
                     .addComponent(btnBuscarRegistroHuesped, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminarRegistroHuesped, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,13 +257,111 @@ DefaultTableModel modeloHuesped = new DefaultTableModel(
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminarRegistroHuesped)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro usuario ", jPanel2);
+
+        jLabel6.setText("Ingrese la fecha en la que desea la reserva:");
+
+        jLabel7.setText("Fecha Entrada (YYYY-MM-DD) :");
+
+        jLabel8.setText("Fecha Salida YYYY-MM-DD) :");
+
+        txtFinalizarFechaSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFinalizarFechaSalidaActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Tipo de Habitacion :");
+
+        comboboxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboboxTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboboxTipoActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Numero de Habitacion :");
+
+        txtFinalizarNumeroHabitacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFinalizarNumeroHabitacionActionPerformed(evt);
+            }
+        });
+
+        tablaHabitacionesHuesped.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaHabitacionesHuesped);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFinalizarFechaEntrada)
+                            .addComponent(txtFinalizarFechaSalida)
+                            .addComponent(comboboxTipo, 0, 134, Short.MAX_VALUE)
+                            .addComponent(txtFinalizarNumeroHabitacion))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFinalizarNumeroHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtFinalizarFechaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtFinalizarFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(comboboxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Finalizar reserva", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -259,7 +399,7 @@ this.setVisible(false);      // oculta Ventana2
 
         if (nombre == null || nombre.isBlank()
                 || documento == null || documento.isBlank()
-                || telefono == null || telefono.isBlank() ) {
+                || telefono == null || telefono.isBlank() || !correo.contains("@") ) {
             JOptionPane.showMessageDialog(this, "Todos los campos deben estar llenos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (telefono.length() <= 0) {
@@ -284,6 +424,49 @@ this.setVisible(false);      // oculta Ventana2
     
 
     }//GEN-LAST:event_btnGuardarRegistroActionPerformed
+
+    private void btnEliminarRegistroHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRegistroHuespedActionPerformed
+     int fila = tablaHuesped.getSelectedRow();
+     if(fila == -1){
+         JOptionPane.showMessageDialog(this, "Seleccione el Huesped a eliminar porfavor.");
+         return;
+     }
+     
+        
+     String documento = String.valueOf(tablaHuesped.getValueAt(fila, 1));
+     if (documento == null || documento.isBlank()){
+         return;
+     }
+     DtoHuesped buscar = HuespedControlador.buscarHuesped(documento);
+     if(buscar == null){
+         JOptionPane.showMessageDialog(this, "El documento igresado no corresponde a ningun Huesped:"+ documento);
+         return;
+     }
+     boolean eliminar = HuespedControlador.eliminarHuesped(documento);
+     if(eliminar){
+         JOptionPane.showMessageDialog(this, "El Huesped fue eliminado correctamente.");
+         ListarHuesped();
+     }else {
+         JOptionPane.showMessageDialog(this, "El Huesped no se pudo eliminar.");
+     }
+     
+ 
+    }//GEN-LAST:event_btnEliminarRegistroHuespedActionPerformed
+
+    private void txtFinalizarFechaSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFinalizarFechaSalidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFinalizarFechaSalidaActionPerformed
+
+    private void comboboxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxTipoActionPerformed
+    comboboxTipo.setToolTipText(null);
+    
+    comboboxTipo.setToolTipText("Estandar");
+    comboboxTipo.setToolTipText("suit");
+    }//GEN-LAST:event_comboboxTipoActionPerformed
+
+    private void txtFinalizarNumeroHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFinalizarNumeroHabitacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFinalizarNumeroHabitacionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,16 +499,28 @@ this.setVisible(false);      // oculta Ventana2
     private javax.swing.JButton btnEliminarRegistroHuesped;
     private javax.swing.JButton btnGuardarRegistro;
     private javax.swing.JButton btnVolverMenu;
+    private javax.swing.JComboBox<String> comboboxTipo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable tablaHabitacionesHuesped;
     private javax.swing.JTable tablaHuesped;
+    private javax.swing.JTextField txtFinalizarFechaEntrada;
+    private javax.swing.JTextField txtFinalizarFechaSalida;
+    private javax.swing.JTextField txtFinalizarNumeroHabitacion;
     private javax.swing.JTextField txtRegistroCorreo;
     private javax.swing.JTextField txtRegistroDocumento;
     private javax.swing.JTextField txtRegistroNombre;

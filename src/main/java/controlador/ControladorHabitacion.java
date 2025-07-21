@@ -31,7 +31,7 @@ public class ControladorHabitacion {
             throw new IdentificadorException("El número de la habitación debe ser mayor a cero.");
         }
 
-        if (habitacion.getTipo() == null || habitacion.getTipo().isEmpty()) {
+        if (habitacion.getTipo() == null || habitacion.getTipo().isEmpty() ) {
             throw new HabitacionException("El tipo de habitación no puede estar vacío.");
         }
 
@@ -42,8 +42,11 @@ public class ControladorHabitacion {
         if (habitacion.getEstado() == null || habitacion.getEstado().isEmpty()) {
             throw new HabitacionException("El estado de la habitación no puede estar vacío.");
         }
-
+        DtoHabitacion buscar = daoHabitacion.buscarHabitacion(habitacion.getNumero());
+        if(buscar== null){
         return daoHabitacion.guardarHabitacion(habitacion);
+        }
+        return false;
     }
 
     public DtoHabitacion buscarHabitacion(int numero) {

@@ -21,7 +21,8 @@ public class DaoHabitacion {
                return false;
            }           
         }
-        return guardarHabitacion(habitacion);
+        ListaHabitacion.add(habitacion);
+        return true;
     }
     public boolean editarHabitacion(DtoHabitacion habitacion) {
         for (DtoHabitacion m : ListaHabitacion) {
