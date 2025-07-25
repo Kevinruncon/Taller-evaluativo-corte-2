@@ -28,7 +28,6 @@ public class VentanaRegistro extends javax.swing.JFrame {
         this.HabitacionControlador = HabitacionControlador;
         this.ventanaPrincipal = ventanaPrincipal;
         listarHabitacionesDisponibles();
-
         setTitle("Registro de Huesped");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -384,7 +383,7 @@ public class VentanaRegistro extends javax.swing.JFrame {
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
 this.setVisible(false);      // oculta Ventana2
-        ventanaPrincipal.setVisible(true); 
+        ventanaPrincipal.setVisible(true);   
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void txtRegistroNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegistroNombreActionPerformed

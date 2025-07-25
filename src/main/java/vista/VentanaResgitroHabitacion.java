@@ -33,7 +33,7 @@ private VentanaPrincipal ventanaPrincipal;
         tablaHabitacion.setModel(modelo);
 
         cargarTiposHabitacion();
-        listarRegistroHabitacion(); // ✅ ahora puede acceder correctamente
+//        listarRegistroHabitacion(); // ✅ ahora puede acceder correctamente
     }
 
     

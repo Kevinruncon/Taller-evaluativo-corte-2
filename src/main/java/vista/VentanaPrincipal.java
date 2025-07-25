@@ -7,6 +7,9 @@ package vista;
 import java.awt.BorderLayout;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import controlador.ControladorHabitacion;
+import dto.DtoHabitacion;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Kevin
@@ -133,6 +136,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
  this.setVisible(false);     // oculta Ventana1
 ventanaRegistro.listarHabitacionesDisponibles(); // 🔧 CORREGIDO: refresca la tabla
 ventanaHabitacion.setVisible(true); 
+ArrayList<DtoHabitacion> resgitrar = ControladorHab.getListaHabitaciones();
+        if( resgitrar == null|| resgitrar.isEmpty()){
+            JOptionPane.showMessageDialog(this, "NO hay ninguna Habitacion registrada.");
+            return;}
     }//GEN-LAST:event_btnVentanaRegistroHabitacionActionPerformed
 
     private void btnVentanaRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentanaRegistro1ActionPerformed
